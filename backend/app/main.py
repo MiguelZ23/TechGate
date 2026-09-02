@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .models import AnalysisResponse
 from .scoring import analyze_image_placeholder, analyze_text
 
-app = FastAPI(title="NeighborShield AI API", description="Plain-language suspicious-message analysis for the OUPI Cyber Clinic Contest.", version="0.1.0")
+app = FastAPI(title="TechGate API", description="AI-powered protection against digital scams for the OUPI Cyber Clinic Contest.", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http://localhost:5173"], allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["*"])
 
 @app.get("/health")

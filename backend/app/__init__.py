@@ -1,1 +1,1 @@
-"""NeighborShield API package."""
+"""TechGate API package."""

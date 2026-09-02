@@ -1,6 +1,6 @@
-# NeighborShield AI
+# TechGate — AI-powered protection against digital scams
 
-NeighborShield AI is an accessible web app that helps people inspect suspicious emails, texts, direct messages, and screenshots. This MVP was created for the 2026 OUPI Cyber Clinic Contest.
+TechGate is an accessible web app that helps people inspect suspicious emails, texts, direct messages, and screenshots. This MVP was created for the 2026 OUPI Cyber Clinic Contest.
 
 ## What works now
 
@@ -17,7 +17,7 @@ Screenshot uploads currently return a clearly labeled demo assessment. The hoste
 ## Project structure
 
 ```text
-neighborshield/
+techgate/
 ├── app/                  # React interface (Vite/Vinext)
 ├── backend/
 │   ├── app/              # FastAPI route, schema, and scoring pipeline
@@ -77,7 +77,7 @@ Never send screenshots to a third-party model without clearly telling users how 
 
 ## Important limitation
 
-NeighborShield provides educational guidance, not a guarantee that a message is safe. Users should verify unexpected requests through an independently found official channel.
+TechGate provides educational guidance, not a guarantee that a message is safe. Users should verify unexpected requests through an independently found official channel.
 
 ## License
 

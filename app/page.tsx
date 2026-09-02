@@ -48,11 +48,11 @@ export default function Home() {
 
   return <main>
     <header className="site-header">
-      <a className="brand" href="#top" aria-label="NeighborShield AI home"><span className="brand-mark" aria-hidden="true">N</span><span>NeighborShield <b>AI</b></span></a>
+      <a className="brand" href="#top" aria-label="TechGate home"><span className="brand-mark" aria-hidden="true">T</span><span>Tech<b>Gate</b></span></a>
       <span className="contest-pill">Built for the OUPI Cyber Clinic Contest</span>
     </header>
     <section className="hero" id="top">
-      <div className="eyebrow"><span aria-hidden="true">●</span> Your calm second opinion online</div>
+      <div className="eyebrow"><span aria-hidden="true">●</span> AI-powered protection against digital scams</div>
       <h1>Not sure if a message<br />is <em>safe?</em></h1>
       <p className="hero-copy">Share a screenshot or paste the message. We’ll point out warning signs and explain what to do next—in plain language.</p>
     </section>
@@ -76,17 +76,17 @@ export default function Home() {
     {result && <Results result={result} onReset={reset} />}
     <section className="how-it-works" aria-labelledby="how-title"><p className="section-kicker">Simple by design</p><h2 id="how-title">A safer next step in seconds</h2><div className="steps">
       <article><span>01</span><div className="step-icon" aria-hidden="true">▤</div><h3>Share what you received</h3><p>Upload a screenshot or paste the message—no cybersecurity knowledge needed.</p></article>
-      <article><span>02</span><div className="step-icon" aria-hidden="true">⌕</div><h3>We check the warning signs</h3><p>NeighborShield looks for urgency, impersonation, risky links, and requests for sensitive information.</p></article>
+      <article><span>02</span><div className="step-icon" aria-hidden="true">⌕</div><h3>We check the warning signs</h3><p>TechGate looks for urgency, impersonation, risky links, and requests for sensitive information.</p></article>
       <article><span>03</span><div className="step-icon" aria-hidden="true">✓</div><h3>Know what to do next</h3><p>Get a clear risk level, simple reasons, and practical steps to protect yourself.</p></article>
     </div></section>
     <aside className="safety-reminder"><div aria-hidden="true">♡</div><p><strong>When in doubt, pause.</strong><br />A real organization won’t pressure you to share passwords, verification codes, or payment details.</p></aside>
-    <footer><div className="brand"><span className="brand-mark" aria-hidden="true">N</span><span>NeighborShield <b>AI</b></span></div><p>Helping our community feel safer online.</p><p className="disclaimer">This tool offers guidance, not a guarantee. For urgent concerns, contact the organization through an official channel.</p></footer>
+    <footer><div className="brand"><span className="brand-mark" aria-hidden="true">T</span><span>Tech<b>Gate</b></span></div><p>AI-powered protection against digital scams.</p><p className="disclaimer">This tool offers guidance, not a guarantee. For urgent concerns, contact the organization through an official channel.</p></footer>
   </main>;
 }
 
 function Results({ result, onReset }: { result: AnalysisResult; onReset: () => void }) {
   const label = { low: 'Low risk', medium: 'Caution advised', high: 'High risk' }[result.risk_level];
-  return <section className={`results ${result.risk_level}`} aria-live="polite" aria-labelledby="result-title"><div className="result-top"><div className="risk-symbol" aria-hidden="true">{result.risk_level === 'high' ? '!' : result.risk_level === 'medium' ? '?' : '✓'}</div><div><p className="result-kicker">NeighborShield assessment</p><h2 id="result-title">{label}</h2><p>{result.summary}</p></div><div className="score"><strong>{result.score}</strong><span>/100 risk</span></div></div>{result.pipeline_version?.startsWith('browser') && <p className="demo-note"><strong>Demo analysis:</strong> This preview uses transparent warning-sign rules. It does not yet use OCR or an AI model.</p>}<div className="result-grid"><div><h3>What stood out</h3><ul>{result.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul></div><div><h3>What to do next</h3><ol>{result.actions.map((action) => <li key={action}>{action}</li>)}</ol></div></div><button className="reset-button" onClick={onReset}>Check another message</button></section>;
+  return <section className={`results ${result.risk_level}`} aria-live="polite" aria-labelledby="result-title"><div className="result-top"><div className="risk-symbol" aria-hidden="true">{result.risk_level === 'high' ? '!' : result.risk_level === 'medium' ? '?' : '✓'}</div><div><p className="result-kicker">TechGate assessment</p><h2 id="result-title">{label}</h2><p>{result.summary}</p></div><div className="score"><strong>{result.score}</strong><span>/100 risk</span></div></div>{result.pipeline_version?.startsWith('browser') && <p className="demo-note"><strong>Demo analysis:</strong> This preview uses transparent warning-sign rules. It does not yet use OCR or an AI model.</p>}<div className="result-grid"><div><h3>What stood out</h3><ul>{result.reasons.map((reason) => <li key={reason}>{reason}</li>)}</ul></div><div><h3>What to do next</h3><ol>{result.actions.map((action) => <li key={action}>{action}</li>)}</ol></div></div><button className="reset-button" onClick={onReset}>Check another message</button></section>;
 }
 
 function analyzeInBrowser(text: string, filename?: string): AnalysisResult {

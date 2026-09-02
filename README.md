@@ -10,8 +10,9 @@ NeighborShield AI is an accessible web app that helps people inspect suspicious 
 - Low, medium, and high risk results with reasons and recommended actions
 - Responsive, keyboard-friendly interface with plain-language guidance
 - FastAPI documentation at `http://localhost:8000/docs`
+- Automatic browser-based demo scoring when the hosted preview cannot reach FastAPI
 
-Screenshot uploads currently return a clearly labeled demo assessment. The extension point for OCR or a multimodal model is `backend/app/scoring.py`.
+Screenshot uploads currently return a clearly labeled demo assessment. The hosted preview uses matching browser-side demo rules so it remains interactive without a separately hosted API. The extension point for OCR or a multimodal model is `backend/app/scoring.py`.
 
 ## Project structure
 

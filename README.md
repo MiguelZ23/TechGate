@@ -80,6 +80,8 @@ The included `render.yaml` can create the FastAPI service on Render's Free plan:
 
 Free Render services can sleep after inactivity, so the first contest demo request might take about a minute. Open the `/health` URL shortly before presenting to wake it up.
 
+The backend includes `.python-version` to keep Render on the tested Python 3.12 runtime.
+
 ## Analysis pipeline
 
 Keep the API response shape unchanged so the interface does not need to be rewritten:

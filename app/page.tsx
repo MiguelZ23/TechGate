@@ -4,7 +4,7 @@ import { ChangeEvent, DragEvent, FormEvent, useRef, useState } from 'react';
 
 type RiskLevel = 'low' | 'medium' | 'high';
 type AnalysisResult = { risk_level: RiskLevel; score: number; summary: string; reasons: string[]; actions: string[]; pipeline_version?: string };
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://techgate-api.onrender.com';
 
 export default function Home() {
   const [mode, setMode] = useState<'upload' | 'paste'>('upload');

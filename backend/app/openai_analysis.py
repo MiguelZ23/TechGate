@@ -107,7 +107,9 @@ async def analyze_image_with_openai(contents: bytes, content_type: str) -> Analy
                 "schema": ANALYSIS_SCHEMA,
             }
         },
-        "max_output_tokens": 700,
+        # This limit includes hidden reasoning tokens as well as the JSON result.
+        # Leave enough room so a valid structured response is not truncated.
+        "max_output_tokens": 2000,
     }
 
     try:

@@ -34,9 +34,14 @@ export default function Home() {
       if (file && mode === 'upload') formData.append('image', file);
       if (mode === 'paste') formData.append('message', message.trim());
       const response = await fetch(`${API_URL}/api/analyze`, { method: 'POST', body: formData });
-      if (!response.ok) throw new Error('Analysis service unavailable');
+      if (!response.ok) {
+        const failure = await response.json().catch(() => null);
+        throw new Error(failure?.detail ?? 'Analysis service unavailable');
+      }
       setResult(await response.json());
-    } catch { setResult(analyzeInBrowser(mode === 'paste' ? message : '', file?.name)); }
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : 'We could not check this right now. Please try again.');
+    }
     finally { setIsLoading(false); }
   };
   const reset = () => { setFile(null); setMessage(''); setResult(null); setError(''); if (fileInput.current) fileInput.current.value = ''; };

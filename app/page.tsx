@@ -4,7 +4,7 @@ import { ChangeEvent, DragEvent, FormEvent, useRef, useState } from 'react';
 
 type RiskLevel = 'low' | 'medium' | 'high';
 type AnalysisResult = { risk_level: RiskLevel; score: number; summary: string; reasons: string[]; actions: string[]; pipeline_version?: string };
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'https://techgate-api.onrender.com';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
 export default function Home() {
   const [mode, setMode] = useState<'upload' | 'paste'>('upload');
@@ -29,10 +29,6 @@ export default function Home() {
     if (mode === 'paste' && !message.trim()) return setError('Paste the message you want to check first.');
     setIsLoading(true); setError(''); setResult(null);
     try {
-      if (window.location.hostname.endsWith('chatgpt.site') && API_URL.includes('localhost')) {
-        setResult(analyzeInBrowser(mode === 'paste' ? message : '', file?.name));
-        return;
-      }
       const formData = new FormData();
       formData.append('input_type', mode === 'upload' ? 'image' : 'text');
       if (file && mode === 'upload') formData.append('image', file);

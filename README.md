@@ -59,7 +59,7 @@ pnpm install
 pnpm dev
 ```
 
-Open the local address printed by the frontend. The example configuration connects to the deployed TechGate API. Change `NEXT_PUBLIC_API_URL` to `http://localhost:8000` in `.env.local` when you want to use a local backend instead.
+Open the local address printed by the frontend. By default, the frontend's same-origin server route forwards requests to the deployed TechGate API. Set `NEXT_PUBLIC_API_URL=http://localhost:8000` in `.env.local` when you want the browser to call a local backend directly.
 
 ## Run checks
 

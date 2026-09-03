@@ -69,6 +69,17 @@ pnpm build
 cd backend && pytest
 ```
 
+## Deploy the backend on Render
+
+The included `render.yaml` can create the FastAPI service on Render's Free plan:
+
+1. In Render, choose **New > Blueprint** and connect `MiguelZ23/TechGate`.
+2. Render will detect `render.yaml` and create `techgate-api`.
+3. When prompted for `OPENAI_API_KEY`, paste it as a secret environment variable.
+4. After deployment, copy the service's `https://...onrender.com` URL.
+
+Free Render services can sleep after inactivity, so the first contest demo request might take about a minute. Open the `/health` URL shortly before presenting to wake it up.
+
 ## Analysis pipeline
 
 Keep the API response shape unchanged so the interface does not need to be rewritten:

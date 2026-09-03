@@ -1,3 +1,4 @@
+import os
 from typing import Annotated, Literal
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,7 +10,9 @@ from .scoring import analyze_image_placeholder, analyze_text
 load_dotenv()
 
 app = FastAPI(title="TechGate API", description="AI-powered protection against digital scams for the OUPI Cyber Clinic Contest.", version="0.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http://localhost:5173"], allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["*"])
+default_origins = "http://localhost:3000,http://localhost:5173,https://techgate.sweet-moose-2721.chatgpt.site"
+allowed_origins = [origin.strip() for origin in os.getenv("CORS_ORIGINS", default_origins).split(",") if origin.strip()]
+app.add_middleware(CORSMiddleware, allow_origins=allowed_origins, allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["*"])
 
 @app.get("/health")
 def health() -> dict[str, str]: return {"status": "ok"}

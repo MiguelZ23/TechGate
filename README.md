@@ -6,13 +6,14 @@ TechGate is an accessible web app that helps people inspect suspicious emails, t
 
 - Drag-and-drop screenshot/photo upload with file type and size checks
 - Paste-message analysis
-- Transparent mock risk scoring based on common scam signals
+- AI screenshot analysis through the OpenAI Responses API when a key is configured
+- Transparent mock risk scoring when the AI service is not configured
 - Low, medium, and high risk results with reasons and recommended actions
 - Responsive, keyboard-friendly interface with plain-language guidance
 - FastAPI documentation at `http://localhost:8000/docs`
 - Automatic browser-based demo scoring when the hosted preview cannot reach FastAPI
 
-Screenshot uploads currently return a clearly labeled demo assessment. The hosted preview uses matching browser-side demo rules so it remains interactive without a separately hosted API. The extension point for OCR or a multimodal model is `backend/app/scoring.py`.
+Screenshot uploads are analyzed by a vision-capable OpenAI model when the FastAPI backend has an API key. The hosted preview uses matching browser-side demo rules until a separately hosted API is connected.
 
 ## Project structure
 
@@ -22,6 +23,7 @@ techgate/
 ├── backend/
 │   ├── app/              # FastAPI route, schema, and scoring pipeline
 │   ├── tests/
+│   ├── .env.example      # Safe template for backend secrets
 │   └── requirements.txt
 ├── public/
 ├── .env.example
@@ -40,8 +42,12 @@ cd backend
 python -m venv .venv
 source .venv/bin/activate       # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+cp .env.example .env
+# Open .env and paste your key after OPENAI_API_KEY=
 uvicorn app.main:app --reload --port 8000
 ```
+
+Keep `backend/.env` private. It is ignored by Git and must never be uploaded to GitHub, pasted into frontend code, or shared in screenshots.
 
 ### 2. Start the frontend
 
@@ -63,15 +69,17 @@ pnpm build
 cd backend && pytest
 ```
 
-## Connecting OCR and AI next
+## Analysis pipeline
 
 Keep the API response shape unchanged so the interface does not need to be rewritten:
 
-1. Extract visible text and QR destinations from screenshots.
-2. Pass extracted text through deterministic URL and scam-pattern checks.
-3. Ask a multimodal model for classification and plain-language explanation.
-4. Combine signals into a calibrated score and return the existing `AnalysisResponse` model.
-5. Add redaction, rate limits, retention controls, and adversarial tests before production use.
+1. The browser sends an image to FastAPI.
+2. FastAPI validates the type and 10 MB size limit and keeps the key server-side.
+3. The image is sent to the OpenAI Responses API with Structured Outputs.
+4. TechGate returns a risk level, reasons, and recommended actions in plain language.
+5. If no key is configured, the clearly labeled demo pipeline remains available.
+
+Before public production use, add rate limits, abuse controls, a privacy policy, redaction options, and adversarial tests.
 
 Never send screenshots to a third-party model without clearly telling users how their data is handled.
 
@@ -81,4 +89,4 @@ TechGate provides educational guidance, not a guarantee that a message is safe. 
 
 ## License
 
-Add an open-source license before publishing the repository publicly. MIT is a common choice for contest projects.
+This project is available under the MIT License in `LICENSE`.

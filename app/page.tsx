@@ -29,7 +29,7 @@ export default function Home() {
     if (mode === 'paste' && !message.trim()) return setError('Paste the message you want to check first.');
     setIsLoading(true); setError(''); setResult(null);
     try {
-      if (window.location.hostname.endsWith('chatgpt.site')) {
+      if (window.location.hostname.endsWith('chatgpt.site') && API_URL.includes('localhost')) {
         setResult(analyzeInBrowser(mode === 'paste' ? message : '', file?.name));
         return;
       }

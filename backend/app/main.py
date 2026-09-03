@@ -1,8 +1,12 @@
 from typing import Annotated, Literal
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 from .models import AnalysisResponse
+from .openai_analysis import AIAnalysisUnavailable, analyze_image_with_openai, openai_is_configured
 from .scoring import analyze_image_placeholder, analyze_text
+
+load_dotenv()
 
 app = FastAPI(title="TechGate API", description="AI-powered protection against digital scams for the OUPI Cyber Clinic Contest.", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http://localhost:5173"], allow_credentials=False, allow_methods=["GET", "POST"], allow_headers=["*"])
@@ -20,4 +24,9 @@ async def analyze(input_type: Annotated[Literal["text", "image"], Form()], messa
     if image.content_type not in {"image/png", "image/jpeg", "image/webp"}: raise HTTPException(status_code=415, detail="Use a PNG, JPG, or WebP image.")
     contents = await image.read(10 * 1024 * 1024 + 1)
     if len(contents) > 10 * 1024 * 1024: raise HTTPException(status_code=413, detail="Images must be 10 MB or smaller.")
-    return analyze_image_placeholder(image.filename)
+    if not openai_is_configured():
+        return analyze_image_placeholder(image.filename)
+    try:
+        return await analyze_image_with_openai(contents, image.content_type)
+    except AIAnalysisUnavailable as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
